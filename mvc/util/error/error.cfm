@@ -1,4 +1,4 @@
-﻿<!---
+<!---
 /**
   *
   *
@@ -24,10 +24,9 @@
 <cfif thistag.executionmode eq "start"><cfsilent>
 <cfscript>
 catchValues = attributes.catchValues;
-
 </cfscript>
-
 </cfsilent>
+
 <cfheader statuscode="500" />
 <cfoutput>
     <h1>MVC error</h1>
@@ -65,18 +64,30 @@ catchValues = attributes.catchValues;
 
         <cfelseif isSimpleValue( catchValues[value] ) >
 
-
             <cfif len( catchValues[value] )>
 
                 <p>
                     <strong>#value#</strong>
                 </p>
 
-                <p>
-                    #catchValues[value]#
-                </p>
+                <cfif value NEQ "StackTrace">
+
+                    <p>
+                        #catchValues[value]#
+                    </p>
+
+                <cfelse>
+
+                    <a href="javascript:show()">Show</a><br>
+
+                    <p style="display:none;" id="stacktrace">
+                        #catchValues[value]#
+                    </p>
+
+                </cfif>
 
                 <hr>
+
             </cfif>
 
         </cfif>
@@ -87,3 +98,17 @@ catchValues = attributes.catchValues;
 </cfoutput>
 
 </cfif>
+
+<script>
+    function show() {
+
+        var ele = document.getElementById('stacktrace');
+
+        if ( ele.style.display == 'block') {
+            ele.style.display = 'none';
+        } else {
+            ele.style.display = 'block';
+        }
+
+    }
+</script>
